@@ -1,0 +1,6 @@
+## Interface: 11200
+## Author: E1ila
+## Title: DeathTimer
+## Notes: Calculates time of a mob until death according to HP loss speed
+DeathTimer.lua
+DeathTimer.xml
