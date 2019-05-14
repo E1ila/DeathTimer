@@ -2,5 +2,6 @@
 ## Author: E1ila
 ## Title: DeathTimer
 ## Notes: Calculates time of a mob until death according to HP loss speed
+## SavedVariables: Enabled, Interval, StackSize, Debug
 DeathTimer.lua
 DeathTimer.xml
