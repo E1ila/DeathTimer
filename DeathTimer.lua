@@ -4,8 +4,9 @@ Interval = 0.2
 StackSize = 15
 Debug = false
 
-local unit, hpStack, dpsStack
+local unit, hpStack, dpsStack, avgDps
 local elapsed = 0
+local elapsedPrint = 0
 local secondsToDeath = nil 
 local lastTime = nil
 
@@ -56,12 +57,18 @@ function DeathTimer_OnUpdate()
 	local diff = time - lastTime
 	lastTime = time
 
+	elapsedPrint = elapsedPrint + diff 
+	if Debug and secondsToDeath and elapsedPrint >= 1 then 
+		elapsedPrint = 0
+		print('|cFFFF962F DeathTimer |cFFFFFF00' .. round(secondsToDeath, 1))
+	end 
+
 	elapsed = elapsed + diff
 	if elapsed >= Interval then 
-		elapsed = elapsed - Interval 
+		elapsed = 0 
 
 		local target = UnitName'target'
-		if target then
+		if target and UnitIsEnemy("player", "target") and not UnitIsDead("target") then
 			if target ~= unit then 
 				unit = target
 				secondsToDeath = nil 
@@ -92,14 +99,11 @@ function DeathTimer_OnUpdate()
 						table.remove(dpsStack, 0)
 					end		
 
-					local avgDps = average(dpsStack)
+					avgDps = average(dpsStack)
 					if not avgDps then 
 						secondsToDeath = nil 
 					else
 						secondsToDeath = hp / avgDps 
-						if Debug then 
-							print('|cFFFF962F DeathTimer |rDPS ' .. round(avgDps, 0) .. '  Time |cFFFFFF00' .. round(secondsToDeath, 1))
-						end 
 					end
 				end 
 			end 
